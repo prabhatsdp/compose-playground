@@ -1,4 +1,4 @@
-package dev.prabhatpandey.composeplayground.ui.theme
+package dev.prabhatpandey.composeplayground.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

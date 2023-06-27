@@ -1,4 +1,4 @@
-package dev.prabhatpandey.composeplayground.ui.theme
+package dev.prabhatpandey.composeplayground.core.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

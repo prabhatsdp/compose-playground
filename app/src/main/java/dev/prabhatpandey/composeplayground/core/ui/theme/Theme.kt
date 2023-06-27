@@ -1,4 +1,4 @@
-package dev.prabhatpandey.composeplayground.ui.theme
+package dev.prabhatpandey.composeplayground.core.ui.theme
 
 import android.app.Activity
 import android.os.Build
