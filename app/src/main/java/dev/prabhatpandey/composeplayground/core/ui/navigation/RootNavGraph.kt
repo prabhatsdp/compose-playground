@@ -8,8 +8,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import dev.prabhatpandey.composeplayground.core.ui.screens.MainScreen
-import dev.prabhatpandey.composeplayground.features.HomeScreen
+import dev.prabhatpandey.composeplayground.features.clock.ClockScreen
+import dev.prabhatpandey.composeplayground.features.home.HomeScreen
 
 @Composable
 fun RootNavGraph(
@@ -23,12 +23,22 @@ fun RootNavGraph(
         popEnterTransition = { fadeIn(tween()) },
         popExitTransition = { fadeOut(tween()) },
     ) {
-        mainScreen(navController)
+        homeScreen(navController)
+        clockScreen(navController)
     }
 }
 
-fun NavGraphBuilder.mainScreen(navController: NavHostController) {
+fun NavGraphBuilder.homeScreen(navController: NavHostController) {
     composable(AppScreen.Home.route) {
-        HomeScreen()
+        HomeScreen(
+            onNavigate = {
+                navController.navigate(it.route)
+            }
+        )
+    }
+}
+fun NavGraphBuilder.clockScreen(navController: NavHostController) {
+    composable(AppScreen.Clock.route) {
+        ClockScreen()
     }
 }
