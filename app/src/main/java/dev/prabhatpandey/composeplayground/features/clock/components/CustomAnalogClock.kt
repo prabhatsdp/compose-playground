@@ -1,5 +1,7 @@
 package dev.prabhatpandey.composeplayground.features.clock.components
 
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -33,8 +35,8 @@ fun CustomAnalogClock(
     modifier: Modifier = Modifier,
     borderColor: Color = MaterialTheme.colorScheme.primary,
     minuteHandColor: Color = MaterialTheme.colorScheme.primary,
-    secondHandColor: Color = Color.White,
-    minuteLinesColor: Color = Color.White.copy(alpha = 0.5f),
+    secondHandColor: Color = MaterialTheme.colorScheme.background,
+    minuteLinesColor: Color = MaterialTheme.colorScheme.background.copy(alpha = 0.5f),
     backgroundColor: Color = MaterialTheme.colorScheme.secondary,
     hourHandColor: Color = MaterialTheme.colorScheme.tertiary,
 ) {
@@ -178,6 +180,45 @@ fun PreviewAnalogClock() {
 @Preview
 @Composable
 fun PreviewAnalogClockSmall() {
+    ComposePlaygroundTheme {
+        Surface(
+            modifier = Modifier.size(100.dp)
+        ) {
+            CustomAnalogClock(
+                modifier = Modifier.fillMaxWidth(),
+                clock = LocalDateTime.now().let {
+                    AnalogClock(ClockTime(it.hour, it.minute, it.second))
+                }
+            )
+        }
+    }
+}
+
+
+@Preview(uiMode = UI_MODE_NIGHT_NO)
+@Composable
+fun PreviewAnalogClockBlack() {
+    ComposePlaygroundTheme {
+        Surface(
+            modifier = Modifier.size(100.dp),
+            color = Color.Black
+        ) {
+            CustomAnalogClock(
+                modifier = Modifier.fillMaxWidth(),
+                clock = LocalDateTime.now().let {
+                    AnalogClock(ClockTime(it.hour, it.minute, it.second))
+                },
+                backgroundColor = Color.Black,
+                borderColor = Color.White.copy(alpha = 0.0f),
+                minuteLinesColor = MaterialTheme.colorScheme.background.copy(alpha = 0.25f),
+            )
+        }
+    }
+}
+
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewAnalogClockNight() {
     ComposePlaygroundTheme {
         Surface(
             modifier = Modifier.size(100.dp)
