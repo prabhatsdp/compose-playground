@@ -20,13 +20,14 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.prabhatpandey.composeplayground.core.ui.theme.ComposePlaygroundTheme
+import dev.prabhatpandey.composeplayground.features.clock.models.AnalogClock
 import dev.prabhatpandey.composeplayground.features.clock.models.ClockTime
 import java.time.LocalDateTime
 
 
 @Composable
 fun CustomAnalogClock(
-    time: ClockTime,
+    clock: AnalogClock,
     modifier: Modifier = Modifier,
     primaryColor: Color = MaterialTheme.colorScheme.primary,
     secondaryColor: Color = MaterialTheme.colorScheme.secondary,
@@ -69,18 +70,18 @@ fun CustomAnalogClock(
             modifier = Modifier.fillMaxSize()
         ) {
 
-            drawHourHand(time.hour, tertiaryColor)
+            drawHourHand(clock.hourHandRotationDegree.toFloat(), tertiaryColor)
 
-            drawMinuteHand(time.minute, primaryColor)
+            drawMinuteHand(clock.minuteHandRotationDegree.toFloat(), primaryColor)
 
-            drawSecondHand(time.seconds, Color.White)
+            drawSecondHand(clock.secondHandRotationDegree.toFloat(), Color.White)
         }
 
     }
 }
 
-private fun DrawScope.drawHourHand(hour: Int = 0, color: Color) {
-    rotate(degrees = (360 / 12) * hour.toFloat(), pivot = center) {
+private fun DrawScope.drawHourHand(rotation: Float, color: Color,) {
+    rotate(degrees = rotation, pivot = center) {
         drawRoundRect(
             color = color,
             topLeft = Offset(
@@ -99,8 +100,8 @@ private fun DrawScope.drawHourHand(hour: Int = 0, color: Color) {
     )
 }
 
-private fun DrawScope.drawMinuteHand(minues: Int = 30, color: Color) {
-    rotate(degrees = (360f/60f) * minues, pivot = center) {
+private fun DrawScope.drawMinuteHand(rotation: Float, color: Color,) {
+    rotate(degrees = rotation, pivot = center) {
         drawRoundRect(
             color = color,
             topLeft = Offset(
@@ -119,8 +120,8 @@ private fun DrawScope.drawMinuteHand(minues: Int = 30, color: Color) {
     )
 }
 
-private fun DrawScope.drawSecondHand(seconds: Int = 30, color: Color) {
-    rotate(degrees = (360f/60f) * seconds, pivot = center) {
+private fun DrawScope.drawSecondHand(rotation: Float, color: Color) {
+    rotate(degrees = rotation, pivot = center) {
         drawRoundRect(
             color = color,
             topLeft = Offset(
@@ -151,8 +152,8 @@ fun PreviewAnalogClock() {
         Surface {
             CustomAnalogClock(
                 modifier = Modifier.fillMaxWidth(),
-                time = LocalDateTime.now().let {
-                    ClockTime(it.hour, it.minute, it.second)
+                clock = LocalDateTime.now().let {
+                    AnalogClock(ClockTime(it.hour, it.minute, it.second))
                 }
             )
         }
