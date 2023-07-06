@@ -28,7 +28,7 @@ fun ClockScreen(
         ) {
 
             CustomAnalogClock(
-                modifier = Modifier.fillMaxWidth(0.75f)
+                modifier = Modifier.fillMaxWidth(0.35f)
                     .padding(top = 24.dp),
                 clock = AnalogClock(time)
             )

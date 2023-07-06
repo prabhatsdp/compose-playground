@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -29,9 +31,12 @@ import java.time.LocalDateTime
 fun CustomAnalogClock(
     clock: AnalogClock,
     modifier: Modifier = Modifier,
-    primaryColor: Color = MaterialTheme.colorScheme.primary,
-    secondaryColor: Color = MaterialTheme.colorScheme.secondary,
-    tertiaryColor: Color = MaterialTheme.colorScheme.tertiary,
+    borderColor: Color = MaterialTheme.colorScheme.primary,
+    minuteHandColor: Color = MaterialTheme.colorScheme.primary,
+    secondHandColor: Color = Color.White,
+    minuteLinesColor: Color = Color.White.copy(alpha = 0.5f),
+    backgroundColor: Color = MaterialTheme.colorScheme.secondary,
+    hourHandColor: Color = MaterialTheme.colorScheme.tertiary,
 ) {
     Box(
         modifier = modifier
@@ -41,106 +46,116 @@ fun CustomAnalogClock(
             modifier = Modifier.fillMaxSize()
         ) {
             drawCircle(
-                color = primaryColor,
+                color = borderColor,
                 radius = size.maxDimension / 2f
             )
             drawCircle(
-                color = secondaryColor,
-                radius = (size.maxDimension / 2f) - 16.dp.toPx()
+                color = backgroundColor,
+                radius = (size.maxDimension / 2f) - (size.maxDimension / 20f)
             )
-            for (i in 1..60) {
-                rotate((360f / 60) * i) {
-                    drawRoundRect(
-                        color = Color.White.copy(alpha = 0.5f),
-                        topLeft = Offset(
-                            size.width / 2f - ( if (i.isAtHour()) 1.dp.toPx() else 0.75.dp.toPx()),
-                            24.dp.toPx()
-                        ),
-                        size = Size(
-                            if (i.isAtHour()) 2.dp.toPx() else 1.5.dp.toPx(),
-                            if (i.isAtHour()) 20.dp.toPx() else 12.dp.toPx()
-                        ),
-                        cornerRadius = CornerRadius(2.dp.toPx(), 2.dp.toPx())
-                    )
-                }
-            }
+            drawMinuteLines(minuteLinesColor)
         }
 
         Canvas(
             modifier = Modifier.fillMaxSize()
         ) {
 
-            drawHourHand(clock.hourHandRotationDegree.toFloat(), tertiaryColor)
+            drawHourHand(clock.hourHandRotationDegree.toFloat(), hourHandColor)
 
-            drawMinuteHand(clock.minuteHandRotationDegree.toFloat(), primaryColor)
+            drawMinuteHand(clock.minuteHandRotationDegree.toFloat(), minuteHandColor)
 
-            drawSecondHand(clock.secondHandRotationDegree.toFloat(), Color.White)
+            drawSecondHand(clock.secondHandRotationDegree.toFloat(), secondHandColor)
         }
 
     }
 }
 
-private fun DrawScope.drawHourHand(rotation: Float, color: Color,) {
+private fun DrawScope.drawMinuteLines(color: Color) {
+    for (i in 1..60) {
+        rotate(6f * i) {
+            drawRoundRect(
+                color = color,
+                topLeft = Offset(
+                    size.width / 2f - (if (i.isAtHour()) 1.dp.toPx() else 0.75.dp.toPx()),
+                    size.maxDimension / 14f
+                ),
+                size = Size(
+                    if (i.isAtHour()) size.width / 100f else size.width / 200f,
+                    if (i.isAtHour()) size.width / 16f else size.width / 24f
+                ),
+                cornerRadius = CornerRadius(2.dp.toPx(), 2.dp.toPx())
+            )
+        }
+    }
+}
+
+private fun DrawScope.drawHourHand(rotation: Float, color: Color) {
+    val thickness = size.minDimension / 28f
+    val length = size.minDimension / 4f
     rotate(degrees = rotation, pivot = center) {
         drawRoundRect(
             color = color,
             topLeft = Offset(
-                size.width / 2f - 6.dp.toPx(),
-                size.height / 4f + 24.dp.toPx()
+                size.width / 2f - thickness / 2f,
+                size.height / 4f + size.maxDimension / 16f
             ),
-            size = Size(12.dp.toPx(), size.height / 4f),
-            cornerRadius = CornerRadius(6.dp.toPx(), 6.dp.toPx()),
+            size = Size(thickness, length),
+            cornerRadius = CornerRadius(thickness / 2, thickness / 2),
             style = Fill
         )
     }
 
     drawCircle(
         color = color,
-        radius = 14.dp.toPx()
+        radius = thickness * 1.1f
     )
 }
 
-private fun DrawScope.drawMinuteHand(rotation: Float, color: Color,) {
+private fun DrawScope.drawMinuteHand(rotation: Float, color: Color) {
+    val thickness = size.width / 36f
+    val length = size.height / 2f - size.height / 8f
     rotate(degrees = rotation, pivot = center) {
         drawRoundRect(
             color = color,
             topLeft = Offset(
-                size.width / 2f - 4.dp.toPx(),
-                size.height / 8f + 24.dp.toPx()
+                (size.width / 2) - thickness / 2,
+                size.height / 8f + (size.maxDimension / 16f)
             ),
-            size = Size(8.dp.toPx(), size.height / 2f - size.height / 8f),
-            cornerRadius = CornerRadius(4.dp.toPx(), 4.dp.toPx()),
-            style = Stroke(2.dp.toPx())
+            size = Size(thickness, length),
+            cornerRadius = CornerRadius(thickness / 2, thickness / 2),
+            style = Stroke(thickness / 4)
         )
     }
 
     drawCircle(
         color = color,
-        radius = 10.dp.toPx()
+        radius = thickness * 1.1f
     )
 }
 
 private fun DrawScope.drawSecondHand(rotation: Float, color: Color) {
+    val thickness = size.width / 84f
+    val length = size.height / 2f - size.height / 20f
     rotate(degrees = rotation, pivot = center) {
         drawRoundRect(
             color = color,
             topLeft = Offset(
-                size.width / 2f - 2.dp.toPx(),
-                size.height / 20f + 24.dp.toPx()
+                size.width / 2f - thickness / 2f,
+                size.height / 20f + size.maxDimension / 16f
             ),
-            size = Size(4.dp.toPx(), size.height / 2f - size.height / 20f),
-            cornerRadius = CornerRadius(4.dp.toPx(), 4.dp.toPx()),
+            size = Size(thickness, length),
+            cornerRadius = CornerRadius(thickness / 2, thickness / 2),
             style = Fill
         )
     }
 
     drawCircle(
         color = color,
-        radius = 6.dp.toPx()
+        radius = thickness * 1.3f
     )
 }
 
-private fun Int.isAtHour() : Boolean {
+private fun Int.isAtHour(): Boolean {
     return this % 5 == 0
 }
 
@@ -150,6 +165,23 @@ private fun Int.isAtHour() : Boolean {
 fun PreviewAnalogClock() {
     ComposePlaygroundTheme {
         Surface {
+            CustomAnalogClock(
+                modifier = Modifier.fillMaxWidth(),
+                clock = LocalDateTime.now().let {
+                    AnalogClock(ClockTime(it.hour, it.minute, it.second))
+                }
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewAnalogClockSmall() {
+    ComposePlaygroundTheme {
+        Surface(
+            modifier = Modifier.size(100.dp)
+        ) {
             CustomAnalogClock(
                 modifier = Modifier.fillMaxWidth(),
                 clock = LocalDateTime.now().let {
