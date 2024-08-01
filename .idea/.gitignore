@@ -7,3 +7,11 @@ misc.xml
 gradle.xml
 compiler.xml
 kotlinc.xml
+/.name
+/other.xml
+/migrations.xml
+/vcs.xml
+.name
+other.xml
+vcs.xml
+migrations.xml
