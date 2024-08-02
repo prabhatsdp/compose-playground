@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -54,13 +55,13 @@ fun MainScreen() {
                     if (isBackVisible) {
                         IconButton(onClick = { navController.navigateUp() }) {
                             Icon(
-                                painter = rememberVectorPainter(image = Icons.Rounded.ArrowBack),
+                                painter = rememberVectorPainter(image = Icons.AutoMirrored.Rounded.ArrowBack),
                                 contentDescription = stringResource(R.string.back)
                             )
                         }
                     }
                 },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 )
             )
@@ -82,6 +83,8 @@ fun MainScreen() {
         when(dest?.destination?.route) {
             AppScreen.Home.route -> titleRes = R.string.app_name
             AppScreen.Clock.route -> titleRes = R.string.clock
+            AppScreen.CalendarScrolling.route -> titleRes = R.string.scrolling_calendar
+            AppScreen.CalendarSwipe.route -> titleRes = R.string.swiping_calendar
         }
 
     }

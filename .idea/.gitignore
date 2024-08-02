@@ -15,3 +15,5 @@ kotlinc.xml
 other.xml
 vcs.xml
 migrations.xml
+/deploymentTargetSelector.xml
+deploymentTargetSelector.xml

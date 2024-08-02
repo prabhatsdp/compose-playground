@@ -3,4 +3,6 @@
     <string name="home">Home</string>
     <string name="back">Back</string>
     <string name="clock">Clock</string>
+    <string name="swiping_calendar">Swiping Calendar</string>
+    <string name="scrolling_calendar">Scrolling Calendar</string>
 </resources>

@@ -33,6 +33,18 @@ fun HomeScreen(
                     onClick = { onNavigate(AppScreen.Clock) }
                 )
             }
+            item {
+                HomeMenuItem(
+                    title = stringResource(id = R.string.swiping_calendar),
+                    onClick = { onNavigate(AppScreen.CalendarSwipe) }
+                )
+            }
+            item {
+                HomeMenuItem(
+                    title = stringResource(id = R.string.scrolling_calendar),
+                    onClick = { onNavigate(AppScreen.CalendarScrolling) }
+                )
+            }
         }
     }
 }
