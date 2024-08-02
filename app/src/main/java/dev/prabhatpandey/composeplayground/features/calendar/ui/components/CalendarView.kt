@@ -3,7 +3,6 @@ package dev.prabhatpandey.composeplayground.features.calendar.ui.components
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,7 +14,9 @@ import androidx.compose.ui.unit.dp
 import dev.prabhatpandey.composeplayground.core.ui.theme.ComposePlaygroundTheme
 import dev.prabhatpandey.composeplayground.features.calendar.domain.models.DateRange
 import java.time.LocalDate
-import java.time.Month
+
+// Static Values
+private const val CONTENT_TYPE_MONTH = 1
 
 /**
  * CalendarView
@@ -23,7 +24,6 @@ import java.time.Month
  * Created by Prabhat Pandey on 02/08/2024
  * for ComposePlayground
  */
-
 @Composable
 fun CalendarView(
     currentDate: LocalDate,
@@ -32,15 +32,23 @@ fun CalendarView(
 ) {
 
     val startMonth = currentDate.withDayOfMonth(1)
-    val months = (0 until 12).map { startMonth.plusMonths(it.toLong()).month }
+    val months = (0 until 12).map { startMonth.plusMonths(it.toLong()) }
 
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 24.dp)
     ) {
-        items(items = months) { month ->
+        items(
+            items = months,
+            key = {
+                it.month.name + it.month.value
+            },
+            contentType = {
+                CONTENT_TYPE_MONTH
+            }
+        ) { d ->
             MonthView(
-                year = currentDate.year,
-                month = month,
+                year = d.year,
+                month = d.month,
                 dateRange = selectedRange,
                 onRangeSelected = onRangeSelected
             )
