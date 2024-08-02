@@ -8,8 +8,10 @@ import dev.prabhatpandey.logex.LogEx
 
 @HiltAndroidApp
 class ComposePlaygroundApp: Application() {
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
+
+    override fun onCreate() {
+        super.onCreate()
         LogEx.configure(BuildConfig.DEBUG)
+
     }
 }
